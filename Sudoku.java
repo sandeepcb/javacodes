@@ -82,6 +82,54 @@ public class Sudoku {
 								}
 							}
 						}
+						if(countR == 0 && countC == 1){
+							int add = 1;
+							for (int sa = (k / 3) * 3; sa < ((k / 3) + 1) * 3; sa++) {
+								for (int as = (j / 3) * 3; as < ((j / 3) + 1) * 3; as++) {
+									if(as!=c)
+										if(!(sa==k&&as==j))
+											if (sud[sa][as] == 0)
+												add = 0;
+								}
+							}
+							if (add == 1) {
+								force = true;
+								foo = num;
+								break;
+							}
+						}
+						if(countR == 1 && countC == 0){
+							int add = 1;
+							for (int sa = (k / 3) * 3; sa < ((k / 3) + 1) * 3; sa++) {
+								for (int as = (j / 3) * 3; as < ((j / 3) + 1) * 3; as++) {
+									if(sa!=r)
+										if(!(sa==k&&as==j))
+											if (sud[sa][as] == 0)
+												add = 0;
+								}
+							}
+							if (add == 1) {
+								force = true;
+								foo = num;
+								break;
+							}
+						}
+						if(countR == 1 && countC == 1){
+							int add = 1;
+							for (int sa = (k / 3) * 3; sa < ((k / 3) + 1) * 3; sa++) {
+								for (int as = (j / 3) * 3; as < ((j / 3) + 1) * 3; as++) {
+									if(sa!=r&&as!=c)
+										if(!(sa==k&&as==j))
+											if (sud[sa][as] == 0)
+												add = 0;
+								}
+							}
+							if (add == 1) {
+								force = true;
+								foo = num;
+								break;
+							}
+						}
 						if(countR == 2 && countC == 1){
 							int add = 1;
 							for (int sa = (k / 3) * 3; sa < ((k / 3) + 1) * 3; sa++) {
@@ -163,14 +211,17 @@ public class Sudoku {
 		}
 	}
 
-	public static void main(String args[]) {
-		Scanner sc = new Scanner(System.in);
-		for (int l = 0; l < 9; l++)
-			for (int m = 0; m < 9; m++)
+	public static String[] solve(String args[]) {
+		//Scanner sc = new Scanner(System.in);
+		int just=0;
+		for (int l = 0; l < 9; l++){
+			for (int m = 0; m < 9; m++){
 				// input zeros for no input please
-				sud[l][m] = sc.nextInt();
-
-		sc.close();
+				sud[l][m] = Integer.parseInt(args[just]);
+		        just++;
+			}
+		}
+		
 		while (true) {
 			int flag = 0;
 			solveGame();
@@ -181,16 +232,15 @@ public class Sudoku {
 			if (flag == 0)
 				break;
 		}
+		just=0;
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				if (sud[i][j] != 0)
-					System.out.print(sud[i][j]);
-				else
-					System.out.print("_");
-
-				System.out.print(" ");
+				
+					args[just]=Integer.toString(sud[i][j]);
+					just++;
+				
 			}
-			System.out.println(" ");
 		}
+		return args;
 	}
 }
